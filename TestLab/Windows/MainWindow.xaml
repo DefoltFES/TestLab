@@ -1,0 +1,50 @@
+﻿<Window x:Class="TestLab.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:TestLab"
+        mc:Ignorable="d"
+        Title="Авторизация и регистрация" Height="700" Width="1280" Loaded="MainWindow_OnLoaded">
+    <Window.Resources>
+        <Style TargetType="TextBlock">
+                <Setter Property="FontFamily" Value="Roboto"></Setter>
+                <Setter Property="Foreground" Value="{StaticResource ContentText}"></Setter>
+                <Setter Property="FontSize" Value="60"></Setter>
+            </Style>
+            <Style TargetType="TextBox">
+                <Setter Property="Foreground" Value="{StaticResource ContentText}"></Setter>
+                <Setter Property="FontFamily" Value="Roboto"></Setter>
+                <Setter Property="FontSize" Value="35"></Setter>
+                <Setter Property="BorderBrush" Value="{StaticResource AccentColor}"></Setter>
+            </Style>
+            <Style TargetType="Button">
+                <Setter Property="Foreground" Value="{StaticResource MainColor}"></Setter>
+                <Setter Property="Background" Value="{StaticResource ContentText}"></Setter>
+                <Setter Property="FontSize" Value="22"></Setter>
+            </Style>
+            <Style TargetType="RadioButton">
+                <Setter Property="Foreground" Value="{StaticResource MainColor}"></Setter>
+                <Setter Property="FontSize" Value="25"></Setter>
+                <Setter Property="VerticalContentAlignment" Value="Center"></Setter>
+            </Style>
+    </Window.Resources>
+    <Grid>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"></RowDefinition>
+                <RowDefinition Height="*"></RowDefinition>
+            </Grid.RowDefinitions>
+            <DockPanel Grid.Row="0">
+            <StackPanel Margin="10" DockPanel.Dock="Left" Orientation="Horizontal">
+                <Path Fill="{StaticResource MainColor}"  Data="{StaticResource Logo}" />
+                <TextBlock Margin="10,0,0,0" FontSize="22" VerticalAlignment="Center" Text="TestLab"/>
+            </StackPanel>
+                <Button x:Name="Register" Click="Register_OnClick" DockPanel.Dock="Right" Margin="10" HorizontalAlignment="Right" >
+                    Регистрация 
+                </Button>
+            </DockPanel>
+            <Frame NavigationUIVisibility="Hidden" Grid.Row="1" x:Name="MainWindowFrame"/>
+        </Grid>
+    </Grid>
+</Window>

@@ -1,0 +1,53 @@
+﻿<Page x:Class="TestLab.Pages.RegisterPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:TestLab.Pages"
+      mc:Ignorable="d" 
+      d:DesignHeight="720" d:DesignWidth="1280"
+      Title="RegisterPage">
+    <Page.Resources>
+        <Style TargetType="TextBlock">
+            <Setter Property="FontFamily" Value="Roboto"></Setter>
+            <Setter Property="Foreground" Value="{StaticResource ContentText}"></Setter>
+            <Setter Property="FontSize" Value="60"></Setter>
+        </Style>
+        <Style TargetType="TextBox">
+            <Setter Property="Foreground" Value="{StaticResource ContentText}"></Setter>
+            <Setter Property="FontFamily" Value="Roboto"></Setter>
+            <Setter Property="FontSize" Value="35"></Setter>
+            <Setter Property="BorderBrush" Value="{StaticResource AccentColor}"></Setter>
+        </Style>
+        <Style TargetType="Button">
+            <Setter Property="Foreground" Value="{StaticResource MainColor}"></Setter>
+            <Setter Property="Background" Value="{StaticResource ContentText}"></Setter>
+            <Setter Property="FontSize" Value="22"></Setter>
+        </Style>
+        <Style TargetType="RadioButton">
+            <Setter Property="Foreground" Value="{StaticResource MainColor}"></Setter>
+            <Setter Property="FontSize" Value="25"></Setter>
+            <Setter Property="VerticalContentAlignment" Value="Center"></Setter>
+        </Style>
+    </Page.Resources>
+    <Grid>
+        <StackPanel HorizontalAlignment="Stretch" Margin="60"  VerticalAlignment="Center">
+            <TextBlock >Регистрация</TextBlock>
+            <TextBox x:Name="Name"  GotFocus="TextBox_OnGotFocus" Margin="0,10,0,0" Text="Имя"></TextBox>
+            <TextBox x:Name="Surname" GotFocus="TextBox_OnGotFocus" Margin="0,10,0,0" Text="Фамилия"></TextBox>
+            <TextBox x:Name="Middlename" GotFocus="TextBox_OnGotFocus" Margin="0,10,0,0" Text="Отчество"></TextBox>
+            <TextBox x:Name="Login" GotFocus="TextBox_OnGotFocus" Margin="0,10,0,0" Text="Логин"></TextBox>
+            <TextBox x:Name="Password" GotFocus="TextBox_OnGotFocus"  Margin="0,5,0,0" Text="Пароль"></TextBox>
+            <DockPanel Margin="0,10,0,0">
+                <RadioButton x:Name="User" IsChecked="True"  DockPanel.Dock="Left">
+                    Пользователь
+                </RadioButton>
+                <RadioButton x:Name="Creator" DockPanel.Dock="Right" HorizontalAlignment="Right">
+                    Создатель
+                </RadioButton>
+            </DockPanel>
+            <Button Click="Register_OnClick" Margin="0,10,0,0" Content="Зарегистрировать"></Button>
+           
+        </StackPanel>
+    </Grid>
+</Page>
