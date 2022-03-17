@@ -7,28 +7,83 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
+using System.Collections.ObjectModel;
+using System.ComponentModel;
+using System.Runtime.CompilerServices;
+using TestLab.Annotations;
+
 namespace TestLab.Model
 {
     using System;
     using System.Collections.Generic;
     
-    public partial class Question
+    public partial class Question:INotifyPropertyChanged
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Question()
         {
-            this.Answers = new HashSet<Answer>();
+            this.Answers = new ObservableCollection<Answer>();
             this.Tests = new HashSet<Test>();
         }
-    
+
+        private string questionText;
+        private int questionType;
+        private byte[] image;
+        private int? questionNumber;
+
         public int Id { get; set; }
-        public string QuestionText { get; set; }
-        public Nullable<int> QuestionType { get; set; }
-        public string Image { get; set; }
-    
+
+        public string QuestionText
+        {
+            get => questionText;
+            set
+            {
+                questionText = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public Nullable<int> QuestionType
+        {
+            get => questionNumber;
+            set
+            {
+                questionNumber = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public byte[] Image
+        {
+            get => image;
+            set
+            {
+                image = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public Nullable<int> QuestionNumber
+        {
+            get => questionNumber;
+            set
+            {
+                questionNumber = value;
+                OnPropertyChanged();
+            }
+        }
+
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Answer> Answers { get; set; }
+        public virtual ObservableCollection<Answer> Answers { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Test> Tests { get; set; }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        [NotifyPropertyChangedInvocator]
+        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
     }
 }

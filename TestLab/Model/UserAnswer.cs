@@ -7,21 +7,45 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
+using System.ComponentModel;
+using System.Runtime.CompilerServices;
+using TestLab.Annotations;
+
 namespace TestLab.Model
 {
     using System;
     using System.Collections.Generic;
     
-    public partial class UserAnswer
+    public partial class UserAnswer:INotifyPropertyChanged
     {
+         private bool? isRight;
+
+
+
         public int Id { get; set; }
         public Nullable<int> IdUserResults { get; set; }
         public Nullable<int> Qnumber { get; set; }
         public string Question { get; set; }
         public string Answer { get; set; }
-        public Nullable<bool> IsRight { get; set; }
+        public Nullable<bool> IsRight
+        {
+            get=>isRight;
+            set
+            {
+                isRight = value;
+                OnPropertyChanged();
+            }
+        }
+
         public Nullable<bool> IsAnswered { get; set; }
     
         public virtual UserResult UserResult { get; set; }
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        [NotifyPropertyChangedInvocator]
+        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
     }
 }

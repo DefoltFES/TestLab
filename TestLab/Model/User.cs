@@ -19,6 +19,7 @@ namespace TestLab.Model
         {
             this.UserResults = new HashSet<UserResult>();
             this.Testings = new HashSet<Testing>();
+            this.Tests = new HashSet<Test>();
         }
     
         public int Id { get; set; }
@@ -35,5 +36,7 @@ namespace TestLab.Model
         public virtual ICollection<UserResult> UserResults { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Testing> Testings { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Test> Tests { get; set; }
     }
 }

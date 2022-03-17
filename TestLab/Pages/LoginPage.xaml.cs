@@ -36,23 +36,17 @@ namespace TestLab.Pages
         {
             if (IsExist())
             {
-                if (User.IdRole == 1)
-                {
-                    App.Current.MainWindow.Close();
-                    AppWindow window = new AppWindow();
-                    window.Show();
-                }
+                AppWindow window = new AppWindow(User);
+                App.Current.MainWindow.Close();
+                MessageBox.Show("Вы успешно вошли", "Потверждение", MessageBoxButton.OK);
+                window.Show();
 
-                if (User.IdRole == 2)
-                {
-                    AppWindow window = new AppWindow();
-                    window.Show();
-                }
             }
             else
             {
-                MessageBox.Show("Ошибка","Неправильно введенные данные",MessageBoxButton.OK);
+                MessageBox.Show("Неправильно введенные данные ", "Ошибка",MessageBoxButton.OK);
             }
+            
         }
 
         private void TextBox_OnGotFocus(object sender, RoutedEventArgs e)
@@ -62,6 +56,9 @@ namespace TestLab.Pages
         }
 
 
+        /// <summary>
+        /// Метод IsExist() осуществляет проверку введенных данных пользователем
+        /// </summary> 
         public bool IsExist()
         {
             var user = DataBaseContext.DbContext.Users.Where(x => x.Login == Login.Text).FirstOrDefault();

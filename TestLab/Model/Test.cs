@@ -26,7 +26,7 @@ namespace TestLab.Model
         public string Name { get; set; }
         public string Description { get; set; }
         public Nullable<int> Time { get; set; }
-        public string PercentRightQuestions { get; set; }
+        public Nullable<double> PercentRightQuestions { get; set; }
         public Nullable<int> CountOfQuestions { get; set; }
         public Nullable<int> IdCreator { get; set; }
     
@@ -36,5 +36,6 @@ namespace TestLab.Model
         public virtual ICollection<UserResult> UserResults { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Question> Questions { get; set; }
+        public virtual User Creator { get; set; }
     }
 }

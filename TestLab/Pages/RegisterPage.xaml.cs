@@ -54,7 +54,7 @@ namespace TestLab.Pages
                 var messageBox = MessageBox.Show("Вы точно хотите зарегестрироваться ?", "Предупреждение",
                     MessageBoxButton.YesNo);
                 
-                AppWindow window = new AppWindow();
+                AppWindow window = new AppWindow(RegisterUser);
                 
                 if (Creator.IsChecked == true)
                 {

@@ -6,19 +6,50 @@
 //     Manual changes to this file will be overwritten if the code is regenerated.
 // </auto-generated>
 //------------------------------------------------------------------------------
+using System.Collections.ObjectModel;
+using System.ComponentModel;
+using System.Runtime.CompilerServices;
+using TestLab.Annotations;
 
 namespace TestLab.Model
 {
     using System;
     using System.Collections.Generic;
     
-    public partial class Answer
+    public partial class Answer: INotifyPropertyChanged
     {
+        private string answerText;
+        private bool isCorrect;
         public int IdAnswer { get; set; }
         public Nullable<int> IdQuestion { get; set; }
-        public string AnswerText { get; set; }
-        public Nullable<bool> IsCorrect { get; set; }
-    
+
+        public string AnswerText
+        {
+            get => answerText;
+            set
+            {
+                answerText = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public Nullable<bool> IsCorrect
+        {
+            get => isCorrect;
+            set
+            {
+                isCorrect = (bool) value;
+                OnPropertyChanged();
+            }
+        }
+
         public virtual Question Question { get; set; }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
     }
 }

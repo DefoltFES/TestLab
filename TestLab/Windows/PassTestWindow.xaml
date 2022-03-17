@@ -1,0 +1,78 @@
+﻿<Window x:Class="TestLab.Windows.PassTestWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:TestLab.Windows"
+        mc:Ignorable="d"
+        Title="PassTestWindow" Height="450" Width="1280">
+    <Grid>
+        <ScrollViewer>
+            <StackPanel>
+                <Border Padding="32" Margin="16">
+                    <StackPanel>
+                        <TextBlock  Style="{StaticResource SmallMiddleTextBlock}"  Text="{Binding Name}"></TextBlock>
+                    </StackPanel>
+                </Border>
+                <Border Padding="32" Margin="16">
+                    <StackPanel>
+                        <TextBlock  Style="{StaticResource SmallMiddleTextBlock}" Text="Описание теста"></TextBlock>
+                        <TextBlock FontSize="20" Margin="0,10,0,0" Style="{StaticResource SmallTextBlock}" TextWrapping="Wrap"  Text="{Binding Description,TargetNullValue=Нет описания}"></TextBlock>
+                    </StackPanel>
+                </Border>
+                <Border Padding="32" Margin="16">
+                    <StackPanel>
+                        <TextBlock  Style="{StaticResource SmallMiddleTextBlock}" Text="{Binding Time,TargetNullValue=Ограничение по времени: нет,StringFormat=Ограничение по времени: {0}}"></TextBlock>
+                    </StackPanel>
+                </Border>
+                <ItemsControl HorizontalContentAlignment="Stretch" Background="Transparent"  ItemsSource="{Binding Questions}">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <Border Padding="32" Margin="16">
+                                <StackPanel>
+                                    <TextBlock  Style="{StaticResource SmallMiddleTextBlock}" TextWrapping="Wrap"  Text="{Binding question_text}" ></TextBlock>
+                                    <ItemsControl  Margin="0,10,0,0" x:Name="OneAnswer" Visibility="{Binding QuestionType,Converter={StaticResource OneAnswer}}" ItemsSource="{Binding answers}" >
+                                        <ItemsControl.ItemTemplate>
+                                            <DataTemplate>
+                                                <TextBox HorizontalAlignment="Stretch" Text="{Binding AnswerText}" Style="{StaticResource SimpleTextBox}"/>
+                                            </DataTemplate>
+                                        </ItemsControl.ItemTemplate>
+                                    </ItemsControl>
+                                    <ItemsControl ItemsSource="{Binding Answers}" Visibility="{Binding QuestionType,Converter={StaticResource ListOneAnswer}}" x:Name="OneManyAnswer" >
+                                        <ItemsControl.ItemTemplate>
+                                            <DataTemplate>
+                                                <StackPanel>
+                                                    <RadioButton Background="{StaticResource  ContentText}" Checked="RadioButtonOnChecked"  IsChecked="{Binding is_correct}" VerticalContentAlignment="Center">
+                                                        <RadioButton.LayoutTransform>
+                                                            <ScaleTransform ScaleX="1.5" ScaleY="1.5" />
+                                                        </RadioButton.LayoutTransform>
+                                                        <TextBlock FontSize="15" VerticalAlignment="Center" Text="{Binding AnswerText}" Foreground="{StaticResource ContentText}"></TextBlock>
+                                                    </RadioButton>
+                                                </StackPanel>
+                                            </DataTemplate>
+                                        </ItemsControl.ItemTemplate>
+                                    </ItemsControl>
+                                    <ItemsControl ItemsSource="{Binding Answers}" Visibility="{Binding QuestionType,Converter={StaticResource ListManyAnswer}}" x:Name="ListManyAnswer">
+                                        <ItemsControl.ItemTemplate>
+                                            <DataTemplate>
+                                                <CheckBox IsChecked="{Binding IsCorrect}"  Background="{StaticResource  ContentText}" VerticalContentAlignment="Center">
+                                                    <CheckBox.LayoutTransform>
+                                                        <ScaleTransform ScaleX="1.5" ScaleY="1.5" />
+                                                    </CheckBox.LayoutTransform>
+                                                    <TextBlock FontSize="15" VerticalAlignment="Center" Text="{Binding AnswerText}" Foreground="{StaticResource ContentText}"></TextBlock>
+                                                </CheckBox>
+                                            </DataTemplate>
+                                        </ItemsControl.ItemTemplate>
+                                    </ItemsControl>
+
+                                </StackPanel>
+                            </Border>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+                <Button Width="220" Click="PassClick" HorizontalAlignment="Left" Margin="10,20,0,40"   Style="{StaticResource SimpleButton}" FontSize="15" Content="Закончить"></Button>
+
+            </StackPanel>
+        </ScrollViewer>
+    </Grid>
+</Window>

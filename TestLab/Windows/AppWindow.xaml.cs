@@ -11,6 +11,8 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using TestLab.Model;
+using TestLab.Pages;
 
 namespace TestLab.Windows
 {
@@ -19,9 +21,32 @@ namespace TestLab.Windows
     /// </summary>
     public partial class AppWindow : Window
     {
-        public AppWindow()
+        private User user;
+
+        public AppWindow(User user)
         {
             InitializeComponent();
+            this.user = user;
+        }
+
+        private void AppWindow_OnLoaded(object sender, RoutedEventArgs e)
+        {
+           FramePage.Content=new ProfilePage(user);
+        }
+
+        private void TestsPage_OnClick(object sender, RoutedEventArgs e)
+        {
+            FramePage.Content = new TestPage(user);
+        }
+
+        private void Profile_OnClick(object sender, RoutedEventArgs e)
+        {
+            FramePage.Content = new ProfilePage(user);
+        }
+
+        private void Result_OnClick(object sender, RoutedEventArgs e)
+        {
+            
         }
     }
 }

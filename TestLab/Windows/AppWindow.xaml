@@ -5,43 +5,54 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:TestLab.Windows"
         mc:Ignorable="d"
-        Title="TestLab" Height="450" Width="1280">
+        Title="TestLab" Height="450" Width="1280" Loaded="AppWindow_OnLoaded">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="304"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
-        <StackPanel Background="{StaticResource ContentText}" Orientation="Vertical">
+        <StackPanel Grid.Column="0" Background="{StaticResource ContentText}" Orientation="Vertical">
             <StackPanel  Margin="25"  HorizontalAlignment="Center"  Orientation="Horizontal">
                 <Path Fill="{StaticResource AccentColor}"  Data="{StaticResource Logo}" />
-                <TextBlock Margin="20,0,10,0" Text="TestLab" VerticalAlignment="Center" FontSize="35"  Foreground="White"/>
+                <TextBlock FontFamily="Cambria" Margin="20,0,10,0" Text="TestLab" VerticalAlignment="Center" FontSize="35"  Foreground="White"/>
             </StackPanel>
             <StackPanel>
-                <Button  HorizontalAlignment="Stretch" HorizontalContentAlignment="Left" Height="42" Margin="15" Background="Transparent" BorderBrush="Transparent">
+                <Button Click="Profile_OnClick"  HorizontalAlignment="Stretch" HorizontalContentAlignment="Left" Height="42" Margin="15" Background="Transparent" BorderBrush="Transparent">
                     <StackPanel  Orientation="Horizontal">
                         <Path Stretch="UniformToFill"  Data="{StaticResource  Home}" Fill="{StaticResource AccentColor}"></Path>
-                        <TextBlock Foreground="White" FontSize="20" VerticalAlignment="Center" Margin="15,0,0,0">
+                        <TextBlock FontFamily="Cambria" Foreground="White" FontSize="20" VerticalAlignment="Center" Margin="15,0,0,0">
                             Профиль
                         </TextBlock>
                     </StackPanel>
                 </Button>
-                <Button  HorizontalAlignment="Stretch" HorizontalContentAlignment="Left" Height="42" Margin="15" Background="Transparent" BorderBrush="Transparent">
+                <Button Click="TestsPage_OnClick" HorizontalAlignment="Stretch" HorizontalContentAlignment="Left" Height="42" Margin="15" Background="Transparent" BorderBrush="Transparent">
                     <StackPanel  Orientation="Horizontal">
                         <Path Stretch="UniformToFill"  Data="{StaticResource  Test}" Fill="{StaticResource AccentColor}"></Path>
-                        <TextBlock Foreground="White" FontSize="20" VerticalAlignment="Center" Margin="15,0,0,0">
+                        <TextBlock Foreground="White" FontFamily="Cambria" FontSize="20" VerticalAlignment="Center" Margin="15,0,0,0">
                             Тесты
                         </TextBlock>
                     </StackPanel>
                 </Button>
-                <Button  HorizontalAlignment="Stretch" HorizontalContentAlignment="Left" Height="42" Margin="15" Background="Transparent" BorderBrush="Transparent">
+                <Button Click="TestsPage_OnClick" HorizontalAlignment="Stretch" HorizontalContentAlignment="Left" Height="42" Margin="15" Background="Transparent" BorderBrush="Transparent">
+                    <StackPanel  Orientation="Horizontal">
+                        <Path Stretch="Fill" Width="35"  Data="{StaticResource  Testing}" Fill="{StaticResource AccentColor}"></Path>
+                        <TextBlock Foreground="White" FontFamily="Cambria" FontSize="20" VerticalAlignment="Center" Margin="15,0,0,0">
+                            Тестирования
+                        </TextBlock>
+                    </StackPanel>
+                </Button>
+                <Button Click="Result_OnClick"  HorizontalAlignment="Stretch" HorizontalContentAlignment="Left" Height="42" Margin="15" Background="Transparent" BorderBrush="Transparent">
                     <StackPanel  Orientation="Horizontal">
                         <Path Stretch="UniformToFill"  Data="{StaticResource  Result}" Fill="{StaticResource AccentColor}"></Path>
-                        <TextBlock Foreground="White" FontSize="20" VerticalAlignment="Center" Margin="15,0,0,0">
+                        <TextBlock Foreground="White" FontFamily="Cambria" FontSize="20" VerticalAlignment="Center" Margin="15,0,0,0">
                             Результаты
                         </TextBlock>
                     </StackPanel>
                 </Button>
             </StackPanel>
         </StackPanel>
+        <Frame NavigationUIVisibility="Hidden" x:Name="FramePage" Grid.Column="1">
+
+        </Frame>
     </Grid>
 </Window>

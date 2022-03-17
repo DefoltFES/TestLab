@@ -8,29 +8,15 @@
       d:DesignHeight="720" d:DesignWidth="1280"
       Title="LoginPage">
     <Page.Resources>
-        <Style TargetType="TextBlock">
-            <Setter Property="FontFamily" Value="Roboto"></Setter>
-            <Setter Property="Foreground" Value="{StaticResource ContentText}"></Setter>
-            <Setter Property="FontSize" Value="60"></Setter>
-        </Style>
-        <Style TargetType="TextBox">
-            <Setter Property="Foreground" Value="{StaticResource ContentText}"></Setter>
-            <Setter Property="FontFamily" Value="Roboto"></Setter>
-            <Setter Property="FontSize" Value="35"></Setter>
-            <Setter Property="BorderBrush" Value="{StaticResource AccentColor}"></Setter>
-        </Style>
-        <Style TargetType="Button">
-            <Setter Property="Foreground" Value="{StaticResource MainColor}"></Setter>
-            <Setter Property="Background" Value="{StaticResource ContentText}"></Setter>
-            <Setter Property="FontSize" Value="22"></Setter>
-        </Style>
+      
+        
     </Page.Resources>
     <Grid>
         <StackPanel HorizontalAlignment="Stretch" Margin="100"  VerticalAlignment="Top">
-            <TextBlock>Вход</TextBlock>
-            <TextBox x:Name="Login" GotFocus="TextBox_OnGotFocus" Margin="0,10,0,0" Text="Логин"></TextBox>
-            <TextBox x:Name="Password" GotFocus="TextBox_OnGotFocus" Margin="0,5,0,0" Text="Пароль"></TextBox>
-            <Button Click="Enter_OnClick" Margin="0,10,0,0" Content="Войти"></Button>
+            <TextBlock Style="{StaticResource BigTextBlock}">Вход</TextBlock>
+            <TextBox Style="{StaticResource SimpleTextBox}" x:Name="Login" GotFocus="TextBox_OnGotFocus" Margin="0,10,0,0" Text="Логин"></TextBox>
+            <TextBox Style="{StaticResource SimpleTextBox}" x:Name="Password" GotFocus="TextBox_OnGotFocus" Margin="0,5,0,0" Text="Пароль"></TextBox>
+            <Button Style="{StaticResource SimpleButton}" Click="Enter_OnClick" Margin="0,10,0,0" Content="Войти"></Button>
         </StackPanel>
     </Grid>
 </Page>

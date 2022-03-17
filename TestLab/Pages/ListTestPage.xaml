@@ -1,0 +1,62 @@
+﻿<Page x:Class="TestLab.Pages.TestPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:TestLab.Pages"
+      mc:Ignorable="d" 
+      d:DesignHeight="450" d:DesignWidth="800"
+      Title="TestPage" Loaded="TestPage_OnLoaded">
+    <StackPanel>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="100"></RowDefinition>
+            <RowDefinition></RowDefinition>
+        </Grid.RowDefinitions>
+        <Border Padding="20" Grid.Row="0">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                <TextBlock Margin="10" Style="{StaticResource BigTextBlock}" Grid.Column="0" DockPanel.Dock="Left"  FontSize="25">Тесты</TextBlock>
+                <Button x:Name="Create"  HorizontalAlignment="Right" Click="Create_OnClick"  Foreground="White" Grid.Column="1" DockPanel.Dock="Right" Style="{StaticResource SimpleButton}">
+                    Создать
+                </Button>
+            </Grid>
+        </Border>
+    </Grid>
+        <Border Padding="32" Margin="16">
+            <DataGrid x:Name="ListTests" AutoGenerateColumns="False" IsReadOnly="True" CanUserAddRows="False"  CanUserDeleteRows="False"  CanUserReorderColumns="False" ItemsSource="{Binding Tests}">
+                <DataGrid.Columns>
+                    <DataGridTextColumn  Header="Название" Foreground="{StaticResource ContentText}" Binding="{Binding Path=Name}">
+                    </DataGridTextColumn>
+                    <DataGridTextColumn Header="Описание" Foreground="{StaticResource ContentText}" Binding="{Binding Path=Description,TargetNullValue=Нет}" >
+                    </DataGridTextColumn>
+                    <DataGridTextColumn Header="Время в минутах" Foreground="{StaticResource ContentText}" Binding="{Binding Path=Time,TargetNullValue=Нет}">
+                    </DataGridTextColumn>
+                    <DataGridTextColumn Header="Кол.вопросов" Foreground="{StaticResource ContentText}" Binding="{Binding Path=CountOfQuestions}">
+                    </DataGridTextColumn>
+                    <DataGridTextColumn Header="Процент для прохождения" Foreground="{StaticResource ContentText}" Binding="{Binding Path=PercentRightQuestions, Converter={StaticResource ProcentConvertor}}">
+                    </DataGridTextColumn>
+                    <DataGridTextColumn Header="Создатель теста" Foreground="{StaticResource ContentText}" >
+                    </DataGridTextColumn>
+                    <DataGridTemplateColumn>
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <Button Style="{StaticResource SimpleButton}" Click="Edit_Click">Изменить</Button>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                    <DataGridTemplateColumn>
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <Button  Click="DeleteClick" Style="{StaticResource SimpleButton}" Foreground="White" Background="Red">Удалить</Button>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                </DataGrid.Columns>
+            </DataGrid>
+        </Border>
+    </StackPanel>
+</Page>

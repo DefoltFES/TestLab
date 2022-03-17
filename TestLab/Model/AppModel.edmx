@@ -21,7 +21,8 @@
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="QuestionText" Type="nvarchar" MaxLength="50" />
           <Property Name="QuestionType" Type="int" />
-          <Property Name="Image" Type="nchar" MaxLength="10" />
+          <Property Name="Image" Type="varbinary(max)" />
+          <Property Name="QuestionNumber" Type="int" />
         </EntityType>
         <EntityType Name="Role">
           <Key>
@@ -63,7 +64,7 @@
           <Property Name="Name" Type="nvarchar" MaxLength="50" />
           <Property Name="Description" Type="nvarchar" MaxLength="50" />
           <Property Name="Time" Type="int" />
-          <Property Name="PercentRightQuestions" Type="nchar" MaxLength="10" />
+          <Property Name="PercentRightQuestions" Type="float" />
           <Property Name="CountOfQuestions" Type="int" />
           <Property Name="IdCreator" Type="int" />
         </EntityType>
@@ -175,6 +176,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Tests_User">
+          <End Role="User" Type="Self.User" Multiplicity="0..1" />
+          <End Role="Tests" Type="Self.Tests" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Tests">
+              <PropertyRef Name="IdCreator" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_User_Role">
           <End Role="Role" Type="Self.Role" Multiplicity="0..1" />
           <End Role="User" Type="Self.User" Multiplicity="*" />
@@ -258,6 +271,10 @@
             <End Role="User" EntitySet="User" />
             <End Role="TestingUser" EntitySet="TestingUser" />
           </AssociationSet>
+          <AssociationSet Name="FK_Tests_User" Association="Self.FK_Tests_User">
+            <End Role="User" EntitySet="User" />
+            <End Role="Tests" EntitySet="Tests" />
+          </AssociationSet>
           <AssociationSet Name="FK_User_Role" Association="Self.FK_User_Role">
             <End Role="Role" EntitySet="Role" />
             <End Role="User" EntitySet="User" />
@@ -281,17 +298,12 @@
       <Schema Namespace="TestLabModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
         <EntityContainer Name="TestLabEntities" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="Answers" EntityType="TestLabModel.Answer" />
-          <EntitySet Name="Questions" EntityType="TestLabModel.Question" />
           <EntitySet Name="Roles" EntityType="TestLabModel.Role" />
           <EntitySet Name="Testings" EntityType="TestLabModel.Testing" />
           <EntitySet Name="Tests" EntityType="TestLabModel.Test" />
           <EntitySet Name="Users" EntityType="TestLabModel.User" />
           <EntitySet Name="UserAnswers" EntityType="TestLabModel.UserAnswer" />
           <EntitySet Name="UserResults" EntityType="TestLabModel.UserResult" />
-          <AssociationSet Name="FK_Answers_Questions" Association="TestLabModel.FK_Answers_Questions">
-            <End Role="Question" EntitySet="Questions" />
-            <End Role="Answer" EntitySet="Answers" />
-          </AssociationSet>
           <AssociationSet Name="FK_User_Role" Association="TestLabModel.FK_User_Role">
             <End Role="Role" EntitySet="Roles" />
             <End Role="User" EntitySet="Users" />
@@ -312,13 +324,22 @@
             <End Role="UserResult" EntitySet="UserResults" />
             <End Role="UserAnswer" EntitySet="UserAnswers" />
           </AssociationSet>
+          <AssociationSet Name="TestingUser" Association="TestLabModel.TestingUser">
+            <End Role="Testing" EntitySet="Testings" />
+            <End Role="User" EntitySet="Users" />
+          </AssociationSet>
+          <EntitySet Name="Questions" EntityType="TestLabModel.Question" />
+          <AssociationSet Name="FK_Answers_Questions" Association="TestLabModel.FK_Answers_Questions">
+            <End Role="Question" EntitySet="Questions" />
+            <End Role="Answer" EntitySet="Answers" />
+          </AssociationSet>
           <AssociationSet Name="TestAndQuestions" Association="TestLabModel.TestAndQuestions">
             <End Role="Question" EntitySet="Questions" />
             <End Role="Test" EntitySet="Tests" />
           </AssociationSet>
-          <AssociationSet Name="TestingUser" Association="TestLabModel.TestingUser">
-            <End Role="Testing" EntitySet="Testings" />
+          <AssociationSet Name="FK_Tests_User" Association="TestLabModel.FK_Tests_User">
             <End Role="User" EntitySet="Users" />
+            <End Role="Test" EntitySet="Tests" />
           </AssociationSet>
         </EntityContainer>
         <EntityType Name="Answer">
@@ -330,17 +351,6 @@
           <Property Name="AnswerText" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="IsCorrect" Type="Boolean" />
           <NavigationProperty Name="Question" Relationship="TestLabModel.FK_Answers_Questions" FromRole="Answer" ToRole="Question" />
-        </EntityType>
-        <EntityType Name="Question">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" />
-          <Property Name="QuestionText" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="QuestionType" Type="Int32" />
-          <Property Name="Image" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
-          <NavigationProperty Name="Answers" Relationship="TestLabModel.FK_Answers_Questions" FromRole="Question" ToRole="Answer" />
-          <NavigationProperty Name="Tests" Relationship="TestLabModel.TestAndQuestions" FromRole="Question" ToRole="Test" />
         </EntityType>
         <EntityType Name="Role">
           <Key>
@@ -369,12 +379,13 @@
           <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="Description" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="Time" Type="Int32" />
-          <Property Name="PercentRightQuestions" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Name="PercentRightQuestions" Type="Double" />
           <Property Name="CountOfQuestions" Type="Int32" />
           <Property Name="IdCreator" Type="Int32" />
           <NavigationProperty Name="Testings" Relationship="TestLabModel.FK_Testings_Tests" FromRole="Test" ToRole="Testing" />
           <NavigationProperty Name="UserResults" Relationship="TestLabModel.FK_UserResult_Tests" FromRole="Test" ToRole="UserResult" />
           <NavigationProperty Name="Questions" Relationship="TestLabModel.TestAndQuestions" FromRole="Test" ToRole="Question" />
+          <NavigationProperty Name="Creator" Relationship="TestLabModel.FK_Tests_User" FromRole="Test" ToRole="User" />
         </EntityType>
         <EntityType Name="User">
           <Key>
@@ -391,6 +402,7 @@
           <NavigationProperty Name="Role" Relationship="TestLabModel.FK_User_Role" FromRole="User" ToRole="Role" />
           <NavigationProperty Name="UserResults" Relationship="TestLabModel.FK_UserResult_User" FromRole="User" ToRole="UserResult" />
           <NavigationProperty Name="Testings" Relationship="TestLabModel.TestingUser" FromRole="User" ToRole="Testing" />
+          <NavigationProperty Name="Tests" Relationship="TestLabModel.FK_Tests_User" FromRole="User" ToRole="Test" />
         </EntityType>
         <EntityType Name="UserAnswer">
           <Key>
@@ -419,18 +431,6 @@
           <NavigationProperty Name="User" Relationship="TestLabModel.FK_UserResult_User" FromRole="UserResult" ToRole="User" />
           <NavigationProperty Name="UserAnswers" Relationship="TestLabModel.FK_UserAnswer_UserResult" FromRole="UserResult" ToRole="UserAnswer" />
         </EntityType>
-        <Association Name="FK_Answers_Questions">
-          <End Type="TestLabModel.Question" Role="Question" Multiplicity="0..1" />
-          <End Type="TestLabModel.Answer" Role="Answer" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Question">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="Answer">
-              <PropertyRef Name="IdQuestion" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_User_Role">
           <End Type="TestLabModel.Role" Role="Role" Multiplicity="0..1" />
           <End Type="TestLabModel.User" Role="User" Multiplicity="*" />
@@ -491,13 +491,49 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="TestingUser">
+          <End Type="TestLabModel.Testing" Role="Testing" Multiplicity="*" />
+          <End Type="TestLabModel.User" Role="User" Multiplicity="*" />
+        </Association>
+        <EntityType Name="Question">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="QuestionText" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="QuestionType" Type="Int32" />
+          <Property Name="Image" Type="Binary" MaxLength="Max" FixedLength="false" />
+          <Property Name="QuestionNumber" Type="Int32" />
+          <NavigationProperty Name="Answers" Relationship="TestLabModel.FK_Answers_Questions" FromRole="Question" ToRole="Answer" />
+          <NavigationProperty Name="Tests" Relationship="TestLabModel.TestAndQuestions" FromRole="Question" ToRole="Test" />
+        </EntityType>
+        <Association Name="FK_Answers_Questions">
+          <End Type="TestLabModel.Question" Role="Question" Multiplicity="0..1" />
+          <End Type="TestLabModel.Answer" Role="Answer" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Question">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Answer">
+              <PropertyRef Name="IdQuestion" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="TestAndQuestions">
           <End Type="TestLabModel.Question" Role="Question" Multiplicity="*" />
           <End Type="TestLabModel.Test" Role="Test" Multiplicity="*" />
         </Association>
-        <Association Name="TestingUser">
-          <End Type="TestLabModel.Testing" Role="Testing" Multiplicity="*" />
-          <End Type="TestLabModel.User" Role="User" Multiplicity="*" />
+        <Association Name="FK_Tests_User">
+          <End Type="TestLabModel.User" Role="User" Multiplicity="0..1" />
+          <End Type="TestLabModel.Test" Role="Test" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Test">
+              <PropertyRef Name="IdCreator" />
+            </Dependent>
+          </ReferentialConstraint>
         </Association>
         </Schema>
     </edmx:ConceptualModels>
@@ -512,16 +548,6 @@
                 <ScalarProperty Name="AnswerText" ColumnName="AnswerText" />
                 <ScalarProperty Name="IdQuestion" ColumnName="IdQuestion" />
                 <ScalarProperty Name="IdAnswer" ColumnName="IdAnswer" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="Questions">
-            <EntityTypeMapping TypeName="TestLabModel.Question">
-              <MappingFragment StoreEntitySet="Questions">
-                <ScalarProperty Name="Image" ColumnName="Image" />
-                <ScalarProperty Name="QuestionType" ColumnName="QuestionType" />
-                <ScalarProperty Name="QuestionText" ColumnName="QuestionText" />
-                <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -595,20 +621,31 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <AssociationSetMapping Name="TestAndQuestions" TypeName="TestLabModel.TestAndQuestions" StoreEntitySet="TestAndQuestions">
-            <EndProperty Name="Test">
-              <ScalarProperty Name="Id" ColumnName="IdTest" />
-            </EndProperty>
-            <EndProperty Name="Question">
-              <ScalarProperty Name="Id" ColumnName="IdQuestion" />
-            </EndProperty>
-          </AssociationSetMapping>
           <AssociationSetMapping Name="TestingUser" TypeName="TestLabModel.TestingUser" StoreEntitySet="TestingUser">
             <EndProperty Name="User">
               <ScalarProperty Name="Id" ColumnName="IdUser" />
             </EndProperty>
             <EndProperty Name="Testing">
               <ScalarProperty Name="Id" ColumnName="IdTesting" />
+            </EndProperty>
+          </AssociationSetMapping>
+          <EntitySetMapping Name="Questions">
+            <EntityTypeMapping TypeName="TestLabModel.Question">
+              <MappingFragment StoreEntitySet="Questions">
+                <ScalarProperty Name="QuestionNumber" ColumnName="QuestionNumber" />
+                <ScalarProperty Name="Image" ColumnName="Image" />
+                <ScalarProperty Name="QuestionType" ColumnName="QuestionType" />
+                <ScalarProperty Name="QuestionText" ColumnName="QuestionText" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <AssociationSetMapping Name="TestAndQuestions" TypeName="TestLabModel.TestAndQuestions" StoreEntitySet="TestAndQuestions">
+            <EndProperty Name="Test">
+              <ScalarProperty Name="Id" ColumnName="IdTest" />
+            </EndProperty>
+            <EndProperty Name="Question">
+              <ScalarProperty Name="Id" ColumnName="IdQuestion" />
             </EndProperty>
           </AssociationSetMapping>
         </EntityContainerMapping>
